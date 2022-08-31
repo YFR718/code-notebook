@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>search</title>
+</head>
+<body>
+
+<h1>languages</h1>
+{% for lan in languages%}
+<a>{{lan}}</a>
+{% endfor%}
+
+<table style="border: black solid 1px">
+    <caption>note列表</caption>
+
+    <th>
+    <td>title</td>
+    <td>describe</td>
+    <td>code</td>
+    </th>
+
+    {% for note in notes%}
+    <tr>
+        <td>{{note.title}}</td>
+        <td>{{note.describe}}</td>
+        <td>{{note.code}}</td>
+        <td>
+            <form action="/del/2" method="post">
+                    {% csrf_token %}
+                <button>delete</button>
+                </form>
+        </td>
+    </tr>
+    {% endfor%}
+</table>
+
+
+
+</body>
+</html>

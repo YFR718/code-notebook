@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>index</title>
+</head>
+<body>
+
+<h1>languages</h1>
+{% for lan in languages%}
+<a href="list/Python"+{{lan}}>{{lan}}</a>
+
+{% endfor%}
+
+
+<form action="/search/" method="post">
+    {% csrf_token %}
+    <input type="text" name="text">
+    <button>搜索</button>
+</form>
+<script>
+
+</script>
+
+</body>
+</html>
