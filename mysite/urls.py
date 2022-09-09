@@ -22,8 +22,11 @@ urlpatterns = [
     path('', views.index),
     path('index/', views.index),
     path('edit/',views.edit),
+    path('edit/<int:id>',views.edit),
     path('crud/',views.crud),
     path('list/<str:lan>/',views.list),
     path('del/<int:id>/',views.delete),
-    path('search/',views.search)
+    path('search/',views.search),
+    path('login/',views.login),
+    path('logout/',views.logout)
 ]

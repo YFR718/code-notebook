@@ -1,26 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>index</title>
-</head>
-<body>
+{% extends 'navbar.html' %}
 
-<h1>languages</h1>
-{% for lan in languages%}
-<a href="list/Python"+{{lan}}>{{lan}}</a>
+{% block content %}
+    {{ title }}
+    {% if msg %}
+        <div class="toast position-fixed bottom-0 end-0 p-3 m-3" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">系统消息</strong>
+                {#                <small class="text-muted">11 mins ago</small>#}
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                {{ msg }}
+            </div>
+        </div>
+    {% endif %}
+    {% if state %}
+        <script>
+            console.log("add")
+            btn2 = document.getElementById('btn2')
+            btn2.setAttribute("data-bs-toggle", false);
+            btn2.setAttribute("data-bs-target", false);
+            btn2.setAttribute("onclick", "window.location.href = '/edit'");
+            btn2.innerText = "add"
+        </script>
+    {% endif %}
 
-{% endfor%}
+    <div class="container-fluid bg-light" id="index" style="align-items: center;justify-content: center;height: 100vh;overflow:hidden; background-image: url(https://img-blog.csdnimg.cn/4aea3329eec048da9ed7b5e2d077217c.jpg?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAWUZSNzE4,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center);background-repeat: no-repeat;background-size: cover;">
+        <div class="row text-center mt-5 p-5">
+            <div class="col text-white " style="font-size: 36px">
+                {{ nums }}条数据,总代码量{{ words }}字
+            </div>
+        </div>
 
 
-<form action="/search/" method="post">
-    {% csrf_token %}
-    <input type="text" name="text">
-    <button>搜索</button>
-</form>
-<script>
+    </div>
 
-</script>
 
-</body>
-</html>
+{% endblock content %}
+
+
+
+
+
+

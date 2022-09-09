@@ -1,28 +1,83 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>edit</title>
-</head>
-<body>
+{% extends 'navbar.html' %}
+{% block content %}
+    {% if msg %}
+        <div class="toast position-fixed bottom-0 end-0 p-3 m-3" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">系统消息</strong>
+                {#                <small class="text-muted">11 mins ago</small>#}
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                {{ msg }}
+            </div>
+        </div>
+    {% endif %}
+    {% if state %}
+        <script>
+            console.log("add")
+            btn2 = document.getElementById('btn2')
+            btn2.setAttribute("data-bs-toggle", false);
+            btn2.setAttribute("data-bs-target", false);
+            btn2.setAttribute("onclick", "window.location.href = '/edit'");
+            btn2.innerText = "add"
+        </script>
+    {% endif %}
 
-<form action="/crud/" method="post">
-    {% csrf_token %}
-    语言：<select name="language">
-    <option value="Python">Python</option>
-    <option value="Go">Go</option>
-    <option value="Java">Java</option>
-    <option value="Javascript">Javascript</option>
-    <option value="C/C++">C/C++</option>
-    <option value="Other">Other</option>
-</select><br>
-    类别：<input type="text" name="class"><br>
-    标题：<input type="text" name="title"><br>
-    描述：<textarea name="describe"></textarea><br>
-    code：<textarea name="code"></textarea><br>
-    <hr>
-    <button>上传</button>
-</form>
+    <div class="container mt-3 ">
+        <div class="row justify-content-center">
+            <div class="col-8 ">
+                <form action="/crud/" method="post" >
+                    <!--    js设置默认值 select and textarea-->
+                    {% csrf_token %}
+                    <label for="lan" class="form-label">语言：</label>
+                    <select name="language" id="lan">
+                        <option value="Python">Python</option>
+                        <option value="Go">Go</option>
+                        <option value="Java">Java</option>
+                        <option value="Javascript">Javascript</option>
+                        <option value="HTML">HTML</option>
+                        <option value="C/C++">C/C++</option>
+                        <option value="Ruby">Ruby</option>
+                    </select><br>
 
-</body>
-</html>
+                    <label for="class" class="form-label">类别：</label>
+                    <input id="class" type="text" name="class" class="form-control" required="required" value={{ note.class }}  >
+
+                    <label for="title" class="form-label">标题：</label>
+                    <input id="title" class="form-control" type="text" name="title" required="required" value={{ note.title }} >
+                    <label for="t1" class="form-label">描述：</label>
+                    <textarea name="describe" id="t1" class="form-control" ></textarea>
+                    <label for="t2" class="form-label">code：</label>
+                    <textarea name="code" id="t2" class="form-control" required="required"></textarea>
+
+                    <!--    根据是否有id判断是新增还是修改-->
+                    <div class="col text-end">
+                        <button class="btn btn-dark ">上传</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {% if state %}
+        <script>
+            console.log("add")
+            btn2 = document.getElementById('btn2')
+            btn2.setAttribute("disable", "true");
+            {#按钮禁止？？#}
+            btn2.setAttribute("data-bs-toggle", false);
+            btn2.setAttribute("data-bs-target", false);
+            btn2.setAttribute("onclick", "window.location.href = '/edit'");
+            btn2.innerText = "add"
+        </script>
+    {% endif %}
+    <script>
+        console.log({{ note|safe }})
+        document.getElementById('t1').value = "{{ note.describe|safe }}";
+        document.getElementById('t2').value = "{{ note.code|safe }}";
+    </script>
+
+{% endblock content %}
+
+

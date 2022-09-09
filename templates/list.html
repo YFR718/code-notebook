@@ -1,45 +1,81 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>list</title>
-</head>
-<body>
+{% extends 'navbar.html' %}
 
-<h1>languages</h1>
-{% for lan in languages%}
-<a>{{lan}}</a>
-{% endfor%}
-<h1>class</h1>
-{% for class in classes%}
-<a href="/list/Python/?a=1">{{class}}</a>
-{% endfor%}
+{% block content %}
 
+    {% if msg %}
+        <div class="toast position-fixed bottom-0 end-0 p-3 m-3" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">系统消息</strong>
+                {#                <small class="text-muted">11 mins ago</small>#}
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                {{ msg }}
+            </div>
+        </div>
+    {% endif %}
+    {% if state %}
+        <script>
+            console.log("add")
+            btn2 = document.getElementById('btn2')
+            btn2.setAttribute("data-bs-toggle", false);
+            btn2.setAttribute("data-bs-target", false);
+            btn2.setAttribute("onclick", "window.location.href = '/edit'");
+            btn2.innerText = "add"
+        </script>
+    {% endif %}
 
-<table style="border: black solid 1px">
-    <caption>note列表</caption>
-
-    <th>
-    <td>title</td>
-    <td>describe</td>
-    <td>code</td>
-    </th>
-
-    {% for note in notes%}
-    <tr>
-        <td>{{note.title}}</td>
-        <td>{{note.describe}}</td>
-        <td>{{note.code}}</td>
-        <td>
-            <form action="/del/2" method="post">
-                    {% csrf_token %}
-                <button>delete</button>
-                </form>
-        </td>
-    </tr>
-    {% endfor%}
-</table>
+    <div class="container mt-2 mb-2 text-center ">
+        {% for class in classes %}
+            <button type="button" class="btn btn-dark m-1 btn-sm"
+                    onclick='location.href=("/list/Python/?class={{ class }}")'>{{ class }}</button>
+        {% endfor %}
+    </div>
 
 
-</body>
-</html>
+
+    <div class="container-md justify-content-md-center">
+        <div class="accordion container-md  col-8 " id="accordionExample">
+            {% for note in notes %}
+                <div class="accordion-item m-3 rounded border-dark">
+                    <h2 class="accordion-header " id="headingOne">
+                        <button class="accordion-button collapsed " type="button" data-bs-toggle="collapse"
+                                data-bs-target="#n{{ note.id }}"
+                                aria-expanded="true" aria-controls="n{{ note.id }}" style="font-size: 24px">
+                            <strong>{{ note.title }}</strong>
+
+                        </button>
+                    </h2>
+                    <div id="n{{ note.id }}" class="accordion-collapse collapse  " aria-labelledby="headingOne">
+                        <div class="accordion-body">
+                            <div class="row  ">
+                                <strong> {{ note.describe }}</strong>
+                            </div>
+
+                            <div class="row">
+                                <pre >{{ note.code }}</pre>
+                            </div>
+                            <div class="container-md mt-2">
+                                <div class="row ">
+                                    <div class="col-4 text-start ">
+                                        <button type="button" class="btn btn-primary align-content-md-start">点赞
+                                        </button>
+                                    </div>
+                                    <div class="col-8 text-end d-inline">
+                                        <button type="button" class="btn btn-success align-content-end "
+                                                onclick='location.href=("/edit/{{ note.id }}")'>编辑
+                                        </button>
+                                        <button type="button" class="btn btn-danger align-content-end-content-end"
+                                                onclick='location.href=("/del/{{ note.id }}")'>删除
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+{% endblock content %}
