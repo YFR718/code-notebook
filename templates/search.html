@@ -17,10 +17,11 @@
                     <div id="n{{ note.id }}" class="accordion-collapse collapse  show" aria-labelledby="headingOne">
                         <div class="accordion-body">
                             <div class="row  ">
-                                <strong> {{ note.describe }}</strong>
+                                <pre style="font-weight: bold" >{{ note.describe }}</pre>
                             </div>
+
                             <div class="row">
-                                {{ note.code }}
+                                <pre >{{ note.code }}</pre>
                             </div>
                             <div class="container-md mt-2">
                                 <div class="row ">
