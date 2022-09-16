@@ -26,13 +26,13 @@ def get_classes(lan, database='database'):
 def get_list(lan, cla=None, database='database'):
     conn = sqlite3.connect(database)
     c = conn.cursor()
-    sql = "select id,title,describe,code from notebook where del=0 and language=\'%s\' " % lan
+    sql = "select id,title,describe,code,love,language from notebook where del=0 and language=\'%s\' " % lan
     if cla:
         sql += "and class=\'%s\'" % cla
     c.execute(sql)
     notes = c.fetchall()
     conn.close()
-    return [{"id": note[0], "title": note[1], "describe": note[2], "code": note[3]} for note in notes]
+    return [{"id": note[0], "title": note[1], "describe": note[2], "code": note[3],"love":note[4],"lan":note[5].lower()} for note in notes]
 
 
 def del_note(id, database='database'):
@@ -53,14 +53,9 @@ def add_note(note:dict, database='database'):
     try:
         conn = sqlite3.connect(database)
         c = conn.cursor()
-
         for k,v in note.items():
-            print(k, note[k])
             note[k] = note[k].replace("'","''")
-            print(k,note[k])
-
-        sql = "insert into notebook values ( null,\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',0,%s,null,0);" % (note["language"],note["class"],note["title"],note["describe"],note["code"],note["time"])
-        print(sql)
+        sql = "insert into notebook values ( null,\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',0,%s,0,0,null);" % (note["language"],note["class"],note["title"],note["describe"],note["code"],note["time"])
         c.execute(sql)
         conn.commit()
         conn.close()
@@ -74,7 +69,6 @@ def change_note(note, database='database'):
         conn = sqlite3.connect(database)
         c = conn.cursor()
         sql = "update notebook set language = \'%s\',class = \'%s\',title = \'%s\',describe = \'%s\',code = \'%s\',utctime = \'%s\' where id = %s;" % (note["language"],note["class"],note["title"],note["describe"],note["code"],note["time"],note["id"])
-        print(sql)
         c.execute(sql)
         conn.commit()
         conn.close()
@@ -88,13 +82,11 @@ def search(text, database='database'):
     conn = sqlite3.connect(database)
     text = "'%"+text+"%'"
     c = conn.cursor()
-    sql = "select id,title,describe,code from notebook where del=0 and title like %s or describe like %s or code like %s" % (text,text,text)
-    print(sql)
+    sql = "select id,title,describe,code,love,language from notebook where del=0 and (title like %s or describe like %s or code like %s)" % (text,text,text)
     c.execute(sql)
     notes = c.fetchall()
-    print(notes)
     conn.close()
-    return [{"id": note[0], "title": note[1], "describe": note[2], "code": note[3]} for note in notes]
+    return [{"id": note[0], "title": note[1], "describe": note[2], "code": note[3],"love":note[4],"lan":note[5].lower()} for note in notes]
 
 # 待处理各种查询失败
 def get_a_note(id, database='database'):
@@ -116,16 +108,17 @@ def get_statistic(database='database'):
     nums = c.fetchall()[0][0]
     c.execute(sql2)
     codes = c.fetchall()
-    words = sum([len(s[0]) for s in codes])
+    lines = 0
+    for c in codes:
+        lines+=len(c[0].split())+1
     conn.close()
-    return nums,words
+    return nums,lines
 
 def add_note_test(database='database'):
     try:
         conn = sqlite3.connect(database)
         c = conn.cursor()
         sql = r"insert into notebook values ( null,'Python','aaa','aaa','aaa','  ''aa'' ',0,1,null,0);"
-        print(sql)
         c.execute(sql)
         conn.commit()
         conn.close()
@@ -133,6 +126,31 @@ def add_note_test(database='database'):
         print(e)
         return False
     return True
+
+def get_all_note(database='database'):
+    conn = sqlite3.connect(database)
+    c = conn.cursor()
+    sql = "select * from notebook order by language,class"
+    c.execute(sql)
+    data = c.fetchall()
+    conn.close()
+    return data
+
+
+
+def love_note(id,database='database'):
+    conn = sqlite3.connect(database)
+    c = conn.cursor()
+    sql1 = "select love from notebook where id = \'%s\' " % id
+    c.execute(sql1)
+    loves = c.fetchall()[0][0]
+    sql2 = "update notebook set love=%s where id=\'%s\' " % (loves+1,id)
+    c.execute(sql2)
+    conn.commit()
+    conn.close()
+    return True
+
+
 
 if __name__ == '__main__':
     #print(get_languages('../database'))
@@ -147,8 +165,10 @@ if __name__ == '__main__':
     # print(search("code","../database"))
     # print(get_a_note("0","../database"))
     # print(change_note(note,"../database"))
-    #get_statistic("../database")
-    add_note_test("../database")
+    # print(get_statistic("../database"))
+    # add_note_test("../database")
+    # print(get_all_note("../database"))
+    print(love_note(2,"../database"))
 
 # q1 =
 #

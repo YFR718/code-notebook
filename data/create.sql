@@ -7,6 +7,8 @@ create table notebook
     describe varchar(10000) not null default '',
     code     varchar(50000) not null,
     useful   integer        not null default 0,
-    utctime  integer        not null,
+    utctime  integer        not null default 0,
+    del      integer        not null default 0,
+    love     integer        not null,
     extra    varchar(5000)
 );

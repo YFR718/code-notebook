@@ -8,7 +8,7 @@
 # conn.close()
 import hashlib
 
-s = "小石头和小栗子"
+s = "123"
 
 def sha256(s):
     sha = hashlib.sha256()

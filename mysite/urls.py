@@ -1,4 +1,4 @@
-"""mysite URL Configuration
+"""hanlp-playground URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.2/topics/http/urls/
@@ -24,9 +24,13 @@ urlpatterns = [
     path('edit/',views.edit),
     path('edit/<int:id>',views.edit),
     path('crud/',views.crud),
+    path('crud/<str:id>', views.crud),
     path('list/<str:lan>/',views.list),
     path('del/<int:id>/',views.delete),
+    path('love/<int:id>/',views.love),
     path('search/',views.search),
     path('login/',views.login),
-    path('logout/',views.logout)
+    path('logout/',views.logout),
+    path('download/md/', views.download_md),
+    path('download/database/', views.download_database),
 ]

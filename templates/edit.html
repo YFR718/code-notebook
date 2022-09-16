@@ -26,32 +26,33 @@
     <div class="container mt-3 ">
         <div class="row justify-content-center">
             <div class="col-8 ">
-                <form action="/crud/" method="post" >
+                <form action="/crud/{{ id }}" method="post" >
                     <!--    js设置默认值 select and textarea-->
                     {% csrf_token %}
-                    <label for="lan" class="form-label">语言：</label>
+                    <label for="lan" class="form-label text-white">语言：</label>
                     <select name="language" id="lan">
                         <option value="Python">Python</option>
                         <option value="Go">Go</option>
                         <option value="Java">Java</option>
                         <option value="Javascript">Javascript</option>
                         <option value="HTML">HTML</option>
-                        <option value="C/C++">C/C++</option>
+                        <option value="C">C/C++</option>
+                        <option value="Ruby">Shell</option>
                         <option value="Ruby">Ruby</option>
                     </select><br>
 
-                    <label for="class" class="form-label">类别：</label>
+                    <label for="class" class="form-label text-white">类别：</label>
                     <input id="class" type="text" name="class" class="form-control" required="required" value={{ note.class }}  >
 
-                    <label for="title" class="form-label">标题：</label>
+                    <label for="title" class="form-label text-white">标题：</label>
                     <input id="title" class="form-control" type="text" name="title" required="required" value={{ note.title }} >
-                    <label for="t1" class="form-label">描述：</label>
+                    <label for="t1" class="form-label text-white">描述：</label>
                     <textarea name="describe" id="t1" rows="5" class="form-control" ></textarea>
-                    <label for="t2" class="form-label" >code：</label>
+                    <label for="t2" class="form-label text-white" >code：</label>
                     <textarea name="code" id="t2" rows="10" class="form-control" required="required"></textarea>
 
                     <!--    根据是否有id判断是新增还是修改-->
-                    <div class="col text-end">
+                    <div class="col text-end mt-2">
                         <button class="btn btn-dark ">上传</button>
                     </div>
 
@@ -74,9 +75,10 @@
     {% endif %}
     <script>
         console.log({{ note|safe }})
-        document.getElementById('t1').value = "{{ note.describe|safe }}";
-        document.getElementById('t2').value = "{{ note.code|safe }}";
+        document.getElementById('t1').value = `{{ note.describe|safe }}`;
+        document.getElementById('t2').value =`{{ note.code|safe }}`;
     </script>
+
 
 {% endblock content %}
 

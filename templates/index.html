@@ -25,16 +25,22 @@
         </script>
     {% endif %}
 
-    <div class="container-fluid bg-light" id="index" style="align-items: center;justify-content: center;height: 100vh;overflow:hidden; background-image: url(https://img-blog.csdnimg.cn/4aea3329eec048da9ed7b5e2d077217c.jpg?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAWUZSNzE4,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center);background-repeat: no-repeat;background-size: cover;">
+    <div class="container-fluid bg-light" id="index"
+         style="align-items: center;justify-content: center;height: 100vh;overflow:hidden; background-image: url(https://img-blog.csdnimg.cn/4aea3329eec048da9ed7b5e2d077217c.jpg?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAWUZSNzE4,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center);background-repeat: no-repeat;background-size: cover; background-position:center center;">
         <div class="row text-center mt-5 p-5">
             <div class="col text-white " style="font-size: 36px">
-                {{ nums }}条数据,总代码量{{ words }}字
+                {{ nums }}条数据，总代码量{{ lines }}行
             </div>
         </div>
 
+        <div class="row fixed-bottom align-content-md-start" style="">
+            <div class="col m-3">
+                <button class="btn btn-warning " onclick='location.href=("/download/md")'>.md</button>
+                <button class="btn btn-warning " onclick='location.href=("/download/database")'>.database</button>
+            </div>
 
+        </div>
     </div>
-
 
 {% endblock content %}
 
